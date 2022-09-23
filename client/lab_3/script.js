@@ -7,7 +7,7 @@
 */
 /* eslint-enable max-len */
 // set our first slide's position to "0", the opening position in an array
-const slidePosition = 0;
+slidePosition = 0; // removes the const
 
 // gather a reference to every slide we're using via the class name and querySelectorAll
 const slides = document.querySelectorAll('.carousel_item');
@@ -39,6 +39,13 @@ function updateSlidePosition() {
 }
 
 function moveToNextSlide() {
+  if (slidePosition === totalSlides){
+    slidePosition = 0;
+  } else {
+    slidePosition += 1;
+  }
+  
+  }
 
   /*
     add an if statement here that checks
@@ -47,8 +54,13 @@ function moveToNextSlide() {
     if not, set the slidePosition to the current position plus one
   */
   updateSlidePosition(); // this is how you call a function within a function
-}
+
 function moveToPrevSlide() {
+  if (slidePosition === totalSlides){
+    slidePosition = 0;
+  } else {
+    slidePosition -= 1;
+  }
   // add your code in here for when you click the "prev" button
   /*
     add an if statement here that checks
