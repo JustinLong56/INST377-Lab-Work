@@ -7,7 +7,7 @@
 */
 /* eslint-enable max-len */
 // set our first slide's position to "0", the opening position in an array
-slidePosition = 0; // removes the const
+let slidePosition = 0; // removes the const
 
 // gather a reference to every slide we're using via the class name and querySelectorAll
 const slides = document.querySelectorAll('.carousel_item');
@@ -18,13 +18,14 @@ const slidesArray = Array.from(slides);
 // Figure out how many slides we have available
 const totalSlides = slidesArray.length;
 
+
+
 function updateSlidePosition() {
 
   slidesArray.forEach((slide) => {
     slide.classList.remove('visible');
     slide.classList.add('hidden');
   });
-
 
   console.log(slidePosition);
   slides[slidePosition].classList.add('visible');
@@ -39,28 +40,36 @@ function updateSlidePosition() {
 }
 
 function moveToNextSlide() {
-  if (slidePosition === totalSlides){
+  
+  if (slidePosition === totalSlides - 1){
     slidePosition = 0;
   } else {
     slidePosition += 1;
   }
   
-  }
 
-  /*
+
+  updateSlidePosition();
+    /*
     add an if statement here that checks
     if you're already at the max number of slides
     and if so, sets your slidePosition to the first index of an array
     if not, set the slidePosition to the current position plus one
   */
-  updateSlidePosition(); // this is how you call a function within a function
+   // this is how you call a function within a function
+
+
+  }
 
 function moveToPrevSlide() {
-  if (slidePosition === totalSlides){
-    slidePosition = 0;
+  
+  if (slidePosition === 0){
+    slidePosition = totalSlides - 1;
   } else {
     slidePosition -= 1;
   }
+
+  updateSlidePosition();
   // add your code in here for when you click the "prev" button
   /*
     add an if statement here that checks
@@ -68,7 +77,7 @@ function moveToPrevSlide() {
     and if so, sets your slidePosition to the last slide position in totalSlides
     if not, set the slidePosition to the current position minus one
   */
-  updateSlidePosition();
+  
 }
 
 /*
