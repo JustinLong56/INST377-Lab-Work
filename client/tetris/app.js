@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () =>{
       'green',
       'pink'
     ]
-
+    
+    //tetrominos
     const lTetromino = [
       [1, width+1, width*2+1, 2],
       [width, width+1, width+2, width*2+2],
@@ -59,13 +60,14 @@ document.addEventListener('DOMContentLoaded', () =>{
     let random = Math.floor(Math.random()*theTetrominoes.length)
     let current = theTetrominoes[random][currentRotation]
   
+  // draws the tetrominoes  
   function draw() {
       current.forEach(index => {
           squares[currentPosition + index].classList.add('tetromino')
           squares[currentPosition + index].style.backgroundColor = colors[random]
       }) 
   }
-  
+  // undraws the tetrominoes
   function undraw() {
     current.forEach(index => {
       squares[currentPosition + index].classList.remove('tetromino')
@@ -217,6 +219,6 @@ document.addEventListener('DOMContentLoaded', () =>{
   
   
   
-  //1:11:48
+  
   })
   
