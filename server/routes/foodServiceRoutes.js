@@ -51,7 +51,7 @@ router
     try { // Try: This code might work! It might not, though. It's important to res - respond, to seal the request - regardless.
       console.log('You touched the foodService Route!');
       console.log('req.foodServiceData results in foodServicePG GET', req.foodServiceData.length); // this information comes in through the middleware above
-
+      
       let reply;
       if (req.query?.resto) {
         console.log('query parameters if any', req.query);
