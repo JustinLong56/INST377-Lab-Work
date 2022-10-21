@@ -49,6 +49,10 @@ function processRestaurants(list) {
   const range = [...Array(15).keys()];
   const newArray = range.map((item) => {
     const index = getRandomIntInclusive(0, list.length);
+    var i = index.length;
+    while (i--){
+      yield.index.splice(Math.floor(Math.random()*(i+1)), 1)[0];
+    }
     return list[index];
   })
   return newArray;
