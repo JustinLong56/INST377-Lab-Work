@@ -4,7 +4,7 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (newMax - newMin + 1) + newMin); // The maximum is exclusive and the minimum is inclusive
   }
   
-  function injectHTML(list) {
+function injectHTML(list) {
     console.log('fired injectHTML');
     const target = document.querySelector("#restaurant_list");
     target.innerHTML = '';
@@ -18,7 +18,7 @@ function getRandomIntInclusive(min, max) {
     });
   }
   
-  function processRestaurants(list) {
+function processRestaurants(list) {
     console.log('fired restaurants list');
     const range = [...Array(15).keys()];
     const newArray = range.map((item) => {
@@ -28,7 +28,7 @@ function getRandomIntInclusive(min, max) {
     return newArray;
   }
   
-  function filterList(list, filterInputValue) {
+function filterList(list, filterInputValue) {
     return list.filter((item) => {
       if (!item.name) { return; }
       const lowerCaseName = item.name.toLowerCase();
@@ -36,15 +36,42 @@ function getRandomIntInclusive(min, max) {
       return lowerCaseName.includes(lowerCaseQuery);
     });
   }
-  
-  async function mainEvent() {
+
+function initMap() {
+  console.log('initMap')
+  const map = L.map('map').setView([38.9897, -76.9378], 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  return map;
+}
+
+
+function markerPlace(array, map){
+  console.log('markerPlace', array);
+  // const marker = L.marker([51.5, -0.09]).addTo(map);
+  map.eachLayer((layer) => {
+    if (layer instanceof L.Marker) {
+      layer.remove();
+    }
+  }); 
+  array.forEach(item => {
+    const {coordinates} = item.geocoded_column_1;
+    console.log(item);
+    L.marker([coordinates[1], coordinates[0]]).addTo(map);
+  })
+}
+
+
+async function mainEvent() {
     /*
       ## Main Event
         Separating your main programming from your side functions will help you organize your thoughts
         When you're not working in a heavily-commented "learning" file, this also is more legible
         If you separate your work, when one piece is complete, you can save it and trust it
     */
-  
+    const pageMap = initMap();
     // the async keyword means we can make API requests
     const form = document.querySelector('.main_form'); // get your main form so you can do JS with it
     const submit = document.querySelector('#get-resto'); // get a reference to your submit button
@@ -89,6 +116,7 @@ function getRandomIntInclusive(min, max) {
         console.log(event.target.value);
         const filteredList = filterList(currentList, event.target.value);
         injectHTML(filteredList);
+        markerPlace(currentList, pageMap);
       });
   
       // And here's an eventListener! It's listening for a "submit" button specifically being clicked
@@ -102,6 +130,7 @@ function getRandomIntInclusive(min, max) {
   
         // And this function call will perform the "side effect" of injecting the HTML list for you
         injectHTML(currentList);
+        markerPlace(currentList, pageMap);
   
         // By separating the functions, we open the possibility of regenerating the list
         // without having to retrieve fresh data every time
@@ -110,9 +139,9 @@ function getRandomIntInclusive(min, max) {
     }
   }
   
-  /*
+/*
     This last line actually runs first!
     It's calling the 'mainEvent' function at line 57
     It runs first because the listener is set to when your HTML content has loaded
   */
-  document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
+document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
